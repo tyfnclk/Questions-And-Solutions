@@ -13,7 +13,9 @@
     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
     <script src="~/Scripts/jquery-3.3.1.min.js"></script>
     <script src="~/Scripts/bootstrap.min.js"></script>
+
     <style>
+
         body {
             font-family: 'Roboto', sans-serif;
             font-size: 11pt;
@@ -76,63 +78,85 @@
                     border-radius: 6px 0 6px 6px;
                 }
     </style>
+
 </head>
 <body>
+    
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <a class="navbar-brand" href="#">Endless Menu Sample In MVC</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
 
-        @{
-            // Veritabanıdnan her defasında çekiyoruz ama siz bunu cache'den alabilirsiniz.
-            // Daha hızlı olacaktır.
-
-            EndlessMenuContext db = new EndlessMenuContext();
-            var rootcats = db.Categories.ToList();
-        }
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
 
-                @CreateMenu(db.Categories
-                                                                                                                        .Where(x => x.ParentCategoryId == null)
-                                                                                                                        .OrderBy(x => x.OrderNo))
+                @{
+                    // Veritabanıdnan her defasında çekiyoruz ama siz 
+                    // bunu cache'den alabilirsiniz.
+                    // Daha hızlı olacaktır.
 
+                    EndlessMenuContext db = new EndlessMenuContext();
+                    var rootcats = db.Categories
+                        .Where(x => x.ParentCategoryId == null)
+                        .OrderBy(x => x.OrderNo);
+                }
+
+                @CreateMenu(rootcats)
 
                 @*<li class="nav-item">
-                        <a class="nav-link" href="#">Link</a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Dropdown
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li class="dropdown-submenu">
-                                <a class="dropdown-item dropdown-toggle" href="#">Subsubmenu</a>
-                                <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" href="#">Subsubmenu action</a></li>
-                                    <li><a class="dropdown-item" href="#">Another subsubmenu action</a></li>
-                                    <li class="dropdown-submenu">
-                                        <a class="dropdown-item dropdown-toggle" href="#">Subsubmenu</a>
-                                        <ul class="dropdown-menu">
-                                            <li><a class="dropdown-item" href="#">Subsubmenu action</a></li>
-                                            <li><a class="dropdown-item" href="#">Another subsubmenu action</a></li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li class="dropdown-divider"></li>
-                            <li class="dropdown-item" href="#">Something else here</li>
-                        </ul>
-                    </li>*@
+                    <a class="nav-link" href="#">Link</a>
+                </li>
+
+                <!-- Örnek bir sonsuz menu item -->
+                <!-- Amacımız bu HTML 'i MVC ye oluşturtmak.
+                Dolayısı ile örnek HTML 'i iyi anlamak gerekiyor. -->
+                <!-- Yukarıdaki "@CreateMenu..." kodunu açıklama satırı yaparak
+                ve sonrasında aşağıdaki HTML kodu -->
+                <!-- Aktif hale getirerek ulaşmaya çalıştığımızı görebilirsiniz. -->
+                <!-- Sonrasını yukarıdaki Helper method halledecektir.-->
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown"
+                        role="button" data-toggle="dropdown" aria-haspopup="true"
+                        aria-expanded="false">
+                        Dropdown
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li class="dropdown-submenu">
+                            <a class="dropdown-item dropdown-toggle" href="#">Subsubmenu</a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#">Subsubmenu action</a></li>
+                                <li><a class="dropdown-item" href="#">Another subsubmenu action</a></li>
+                                <li class="dropdown-submenu">
+                                    <a class="dropdown-item dropdown-toggle" href="#">Subsubmenu</a>
+                                    <ul class="dropdown-menu">
+                                        <li><a class="dropdown-item" href="#">Subsubmenu1 action</a></li>
+                                        <li><a class="dropdown-item" href="#">Subsubmenu2 action</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="dropdown-divider"></li>
+                        <li class="dropdown-item" href="#">Something else here</li>
+                    </ul>
+                </li>*@
+
             </ul>
             <form class="form-inline my-2 my-lg-0">
-                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                <input class="form-control mr-sm-2" type="search" placeholder="Search"
+                       aria-label="Search">
+
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">
+                    Search
+                </button>
             </form>
         </div>
     </nav>
+
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-12">
@@ -167,7 +191,7 @@
 </html>
 
 @*
-    Menü oluşumu için helper metotlardan yararlanılmıştır.    
+    Menü oluşumu için helper metotlardan yararlanılmıştır.
 *@
 
 @helper CreateMenu(IEnumerable<Category> rootcats)
